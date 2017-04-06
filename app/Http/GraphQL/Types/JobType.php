@@ -3,6 +3,7 @@
 namespace App\Http\GraphQL\Types;
 
 use GraphQL;
+use App\Http\GraphQL\Connections\JobTasksConnection;
 use GraphQL\Type\Definition\Type;
 use Nuwave\Lighthouse\Support\Definition\GraphQLType;
 use Nuwave\Lighthouse\Support\Interfaces\RelayType;
@@ -44,7 +45,8 @@ class JobType extends GraphQLType implements RelayType
             'title' => [
                 'type' => Type::string(),
                 'description' => 'Title of the job.',
-            ]
+            ],
+            'tasks' => GraphQL::connection(new JobTasksConnection)->field(),
         ];
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\GraphQL\Types;
 
 use GraphQL;
+use App\Task;
 use GraphQL\Type\Definition\Type;
 use Nuwave\Lighthouse\Support\Definition\GraphQLType;
 use Nuwave\Lighthouse\Support\Interfaces\RelayType;
@@ -44,6 +45,23 @@ class TaskType extends GraphQLType implements RelayType
             'title' => [
                 'type' => Type::string(),
                 'description' => 'Title of the job task.',
+            ],
+            'users' => [
+                'type' => GraphQL::type('taskUsers'),
+                'args' => [
+                    'count' => [
+                        'type' => Type::nonNull(Type::int()),
+                    ],
+                    'page' => [
+                        'type' => Type::int(),
+                    ],
+                ],
+                'resolve' => function (Task $task, array $args) {
+                    $count = $args['count'];
+                    $page = $args['page'] ?? 1;
+
+                    return $task->users()->paginate($count, ['*'], 'page', $page);
+                }
             ],
         ];
     }
