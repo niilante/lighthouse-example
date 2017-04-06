@@ -14,8 +14,13 @@ class CreateTaskUserTable extends Migration
     public function up()
     {
         Schema::create('task_user', function (Blueprint $table) {
-            $table->increments('id');
+            $table->unsignedInteger('task_id');
+            $table->unsignedInteger('user_id');
             $table->timestamps();
+
+            $table->primary(['task_id', 'user_id']);
+            $table->foreign('task_id')->references('id')->on('tasks')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
