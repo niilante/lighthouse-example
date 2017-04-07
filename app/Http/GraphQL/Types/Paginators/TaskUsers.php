@@ -51,7 +51,7 @@ class TaskUsers extends GraphQLType
                     return $users->currentPage();
                 }
             ],
-            'users' => [
+            'items' => [
                 'type' => Type::listOf(GraphQL::type('user')),
                 'resolve' => function (LengthAwarePaginator $users) {
                     return $users->items();
